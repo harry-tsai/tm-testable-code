@@ -1,0 +1,5 @@
+pytest
+behave
+django
+pytest-mock
+selenium

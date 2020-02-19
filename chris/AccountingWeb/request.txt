@@ -1,0 +1,11 @@
+year/month, money
+insert/update
+*Specification by Example 實地化需求
+-----------------------------------
+Feature: Set Budget
+Scenario: Add a budget
+
+Given
+And
+When
+Then
