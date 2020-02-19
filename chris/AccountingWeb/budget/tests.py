@@ -29,7 +29,9 @@ class BudgetsFactory(DjangoModelFactory):
         
 class BudgetCreateTestCase(unittest.TestCase):
     def setUp(self):
+        
         self.budget = BudgetsFactory.build(year_month='202003', budget_money=300)
+        self.budget.__class__.objects.all().delete()
         self.budget.save()
         
     def test_create_budget(self):
@@ -38,7 +40,7 @@ class BudgetCreateTestCase(unittest.TestCase):
         self.assertEquals(b'create budget successful', budget_create(self.request, self.budget).content)
 
     def test_update_budget(self):
-        self.request = FakeRequestFactory(POST={'date': '202003', 'budget': 600})
+        self.request = FakeRequestFactory(POST={'date': '202003', 'budget': 500})
         print('budget factory:{}'.format(self.budget))
         self.assertEquals(b'update budget successful', budget_create(self.request, self.budget).content)
 
