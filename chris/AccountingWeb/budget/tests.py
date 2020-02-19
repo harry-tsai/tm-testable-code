@@ -1,52 +1,45 @@
-from django.test import TestCase
-
 # Create your tests here.
 from django.test import TestCase
-from .models import Budgets
+from . import models
 
 import unittest
 import factory
+from factory.django import DjangoModelFactory
 from mock import patch
 
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.models import User
 from django.http import Http404
 
 from .views import budget_create
-global request, budgets_being_viewed
-
+import json
 
 def FakeRequestFactory(*args, **kwargs):
-    budgets = BudgetsFactory()
     request = HttpRequest()
     request.session = kwargs.get('session', {})
-    if kwargs.get('POST'):
-        request.method = 'POST'
-        request.POST = kwargs.get('POST')
-    else:
-        request.method = 'GET'
-        request.POST = kwargs.get('GET', {})
+    request.method = 'POST'
+    request.POST = kwargs.get('POST')
         
-        return request
+    return request
 
         
-class BudgetsFactory(factory.Factory):
-    FACTORY_FOR = Budgets
-    year_month = factory.Sequence(lambda i: '2020%02d' % (i%12))
-    budget_money = factory.Sequence(lambda i: i)
-
-
-request = FakeRequestFactory()
-budgets_being_viewed = BudgetsFactory()
-    
-    
+class BudgetsFactory(DjangoModelFactory):
+    class Meta:
+        model = models.Budgets
+        
 class BudgetCreateTestCase(unittest.TestCase):
+    def setUp(self):
+        self.budget = BudgetsFactory.build(year_month='202003', budget_money=300)
+        self.budget.save()
+        
     def test_create_budget(self):
-        self.assertEquals(budgets_being_viewed,
-                          budget_create(request).get('year_month'))
+        self.request = FakeRequestFactory(POST={'date': '202004', 'budget': 400})
+        print('budget factory:{}'.format(self.budget))
+        self.assertEquals(b'create budget successful', budget_create(self.request, self.budget).content)
 
     def test_update_budget(self):
-        self.assertEquals(budgets_being_viewed,
-                          budget_create(request).get('year_month'))
+        self.request = FakeRequestFactory(POST={'date': '202003', 'budget': 600})
+        print('budget factory:{}'.format(self.budget))
+        self.assertEquals(b'update budget successful', budget_create(self.request, self.budget).content)
 
 
