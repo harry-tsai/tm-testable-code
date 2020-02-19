@@ -1,4 +1,4 @@
-describe('angularjs homepage', function() {
+describe('budget page', function() {
     beforeAll(async () => {
         browser.waitForAngularEnabled(false);
     });
@@ -15,7 +15,7 @@ describe('angularjs homepage', function() {
 
     it('success', function() {
         const result = element(by.css('body')).getText();
-        expect(result).toBe('update budget successful.');
+        expect(result).toBe('create budget successful.');
         browser.sleep(2000);
     });
   });
