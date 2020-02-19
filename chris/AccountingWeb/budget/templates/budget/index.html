@@ -1,10 +1,10 @@
 <form action="/budget/budget_create" method="post">
   {% csrf_token %}
   <label>Date:</label>
-  <input type='text' name='date' />
+  <input id='date' type='text' name='date' />
   </br>
   <label>Budget:</label>
-  <input type='text' name='budget' />
+  <input id='budget' type='text' name='budget' />
   </br>
-  <input type='submit' value='submit' />
+  <input id='submit' type='submit' value='submit' />
  </form>
