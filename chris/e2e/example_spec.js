@@ -1,4 +1,4 @@
-describe('angularjs homepage', function() {
+describe('budget page', function() {
     beforeAll(async () => {
         browser.waitForAngularEnabled(false);
     });
