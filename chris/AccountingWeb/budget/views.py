@@ -62,11 +62,11 @@ def budget_query_result(request, budgets=None):
     budget_month_list = [res.year_month for res in budget_res]
     print('budget_month_list:{}'.format(budget_month_list))
     total_amount = 0.0
-    for query_month in month_list:
+    for query_month in month_list_distinct:
         for idx, budget_month in enumerate(budget_month_list):
             days = monthrange(int(budget_month[:4]), int(budget_month[4:6]))[1]
             if query_month == budget_month:
-                total_amount += float(budget_res[idx].budget_money)/days
+                total_amount += float(budget_res[idx].budget_money)/days*dict(month_list_collect)[query_month]
     print('total_amount:{}'.format(total_amount))
     context = {'amount': total_amount}
     return render(request, 'budget/query_result.html', context) 
