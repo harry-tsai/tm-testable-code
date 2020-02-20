@@ -89,7 +89,7 @@ describe('Query next moonth budget', function() {
     });
 
     it('Then total amount should be ', function() {
-        expect(BudgetPageObject.getBudgetResult()).toBe('51.00');
+        expect(BudgetPageObject.getBudgetResult()).toBe('41.00');
         browser.sleep(2000);
     });
 });
