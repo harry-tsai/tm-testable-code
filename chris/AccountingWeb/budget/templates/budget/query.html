@@ -1,0 +1,8 @@
+<form action="/budget/budget_query_result" method="post">
+    {% csrf_token %}
+    <lbael>Start date:</lbael>
+    <input type="text" name='start_date' /><br />
+    <lbael>End date:</lbael>
+    <input type="text" name='end_date' /><br />
+    <input id='query' type='submit' value='query' />
+</form>
