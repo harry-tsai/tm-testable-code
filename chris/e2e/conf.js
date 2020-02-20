@@ -14,7 +14,7 @@ exports.config = {
 
 
   // 指定要跑的 test file
-  specs: ['example_spec.js'],
+  specs: ['query_budget_spec.js'],
 
 
 
