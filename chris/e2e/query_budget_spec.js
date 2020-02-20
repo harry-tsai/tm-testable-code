@@ -1,9 +1,19 @@
 const BudgetPageObject = require('./page/budget');
 
+//載入 sqlite3
+const sqlite3 = require("sqlite3").verbose();
+//新增一個sqlite3的資料庫test.db
+var db = new sqlite3.Database('../AccountingWeb/db.sqlite3');
+
 describe('Query empty budget', function() {
 
     beforeAll(function() {
         browser.waitForAngularEnabled(false);
+        db.serialize(function() {
+            //刪除資料
+            var sql04 = "delete from budget_Budgets";
+            db.run(sql04);
+        });
     });
 
     it('Go to query budget page', function() {
@@ -19,7 +29,7 @@ describe('Query empty budget', function() {
     });
 
     it('Then total amount should be ', function() {
-        expect(BudgetPageObject.getBudgetResult()).toBe('0');
+        expect(BudgetPageObject.getBudgetResult()).toBe('0.00');
         browser.sleep(2000);
     });
 });
@@ -28,6 +38,13 @@ describe('Query empty budget', function() {
 describe('Query partial month budget', function() {
     beforeAll(function() {
         browser.waitForAngularEnabled(false);
+        db.serialize(function() {
+            //刪除資料
+            var sql04 = "delete from budget_Budgets";
+            db.run(sql04);  
+            sql04 = "INSERT INTO budget_Budgets(year_month, budget_money) VALUES ('202001','310');";
+            db.run(sql04);  
+        });
     });
 
     it('Go to query budget page', function() {
@@ -51,6 +68,13 @@ describe('Query partial month budget', function() {
 describe('Query full month budget', function() {
     beforeAll(function() {
         browser.waitForAngularEnabled(false);
+        db.serialize(function() {
+            //刪除資料
+            var sql04 = "delete from budget_Budgets";
+            db.run(sql04);  
+            sql04 = "INSERT INTO budget_Budgets(year_month, budget_money) VALUES ('202001','310');";
+            db.run(sql04);  
+        });
     });
 
     it('Go to query budget page', function() {
@@ -71,9 +95,18 @@ describe('Query full month budget', function() {
     });
 });
 
-describe('Query next moonth budget', function() {
+describe('Query cross moonth budget', function() {
     beforeAll(function() {
         browser.waitForAngularEnabled(false);
+        db.serialize(function() {
+            //刪除資料
+            var sql04 = "delete from budget_Budgets";
+            db.run(sql04);  
+            sql04 = "INSERT INTO budget_Budgets(year_month, budget_money) VALUES ('202004','30');";
+            db.run(sql04);  
+            sql04 = "INSERT INTO budget_Budgets(year_month, budget_money) VALUES ('202005','310');";
+            db.run(sql04);  
+        });
     });
 
     it('Go to query budget page', function() {
@@ -81,7 +114,7 @@ describe('Query next moonth budget', function() {
     });
 
     it('Given start date and end date', function() {
-        BudgetPageObject.setStartDateAndEndDate('20200415', '20200515');
+        BudgetPageObject.setStartDateAndEndDate('20200430', '20200504');
     });
 
     it('When click query button', function() {

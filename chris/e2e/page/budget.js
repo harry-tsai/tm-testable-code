@@ -6,7 +6,6 @@ const BudgetPageObject = function() {
     this.setStartDateAndEndDate = (startDate, endDate) => {
         element(by.name('start_date')).sendKeys(startDate);
         element(by.name('end_date')).sendKeys(endDate);
-        element(by.id('query')).click();
     }
 
     this.queryBudget = () => {
